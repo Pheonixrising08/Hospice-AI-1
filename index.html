@@ -1,65 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Generated Form</title>
+  <title>Hospice Narrative AI Review</title>
 </head>
 <body>
+  <h1>Hospice Narrative AI Review</h1>
   <form id="dynamicForm"></form>
 
   <script>
-    // Simulated JSON structure
     const formJSON = {
-  "title": "Hospice Narrative AI Review",
-  "fields": [
-    {
-      "type": "control_textbox",
-      "text": "Submitter Name",
-      "name": "submitterName"
-    },
-    {
-      "type": "control_email",
-      "text": "Submitter Email",
-      "name": "submitterEmail"
-    },
-    {
-      "type": "control_textarea",
-      "text": "Narrative Note",
-      "name": "narrativeNote"
-    },
-    {
-      "type": "control_textarea",
-      "text": "AI Result",
-      "name": "aiResult",
-      "hidden": true
-    }
-  ]
-};
+      "title": "Hospice Narrative AI Review",
+      "fields": [
+        {
+          "type": "control_textbox",
+          "text": "Submitter Name",
+          "name": "submitterName"
+        },
+        {
+          "type": "control_email",
+          "text": "Submitter Email",
+          "name": "submitterEmail"
+        },
+        {
+          "type": "control_textarea",
+          "text": "Narrative Note",
+          "name": "narrativeNote"
+        },
+        {
+          "type": "control_textarea",
+          "text": "AI Result",
+          "name": "aiResult",
+          "hidden": true
+        }
+      ]
+    };
+
+    const typeMap = {
+      "control_textbox": "text",
+      "control_email": "email",
+      "control_textarea": "textarea"
+    };
 
     const form = document.getElementById('dynamicForm');
 
-    formJSON.questions.forEach((q, i) => {
+    formJSON.fields.forEach((field, i) => {
+      const wrapper = document.createElement('div');
+      if (field.hidden) wrapper.style.display = 'none';
+
       const label = document.createElement('label');
-      label.textContent = q.label;
-      label.setAttribute('for', `field${i}`);
-      form.appendChild(label);
+      label.textContent = field.text;
+      label.setAttribute('for', field.name);
+      wrapper.appendChild(label);
 
       let input;
-      if (q.type === "textarea") {
+      const inputType = typeMap[field.type] || "text";
+
+      if (inputType === "textarea") {
         input = document.createElement('textarea');
       } else {
         input = document.createElement('input');
-        input.type = q.type;
+        input.type = inputType;
       }
 
-      input.name = `field${i}`;
-      input.id = `field${i}`;
-      form.appendChild(input);
+      input.name = field.name;
+      input.id = field.name;
+      wrapper.appendChild(input);
 
-      form.appendChild(document.createElement('br'));
+      form.appendChild(wrapper);
       form.appendChild(document.createElement('br'));
     });
 
-    // Add submit button
     const submit = document.createElement('button');
     submit.type = "submit";
     submit.textContent = "Submit";
