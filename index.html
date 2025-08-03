@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generated Form</title>
+</head>
+<body>
+  <form id="dynamicForm"></form>
+
+  <script>
+    // Simulated JSON structure
+    const formJSON = {
+  "title": "Hospice Narrative AI Review",
+  "fields": [
+    {
+      "type": "control_textbox",
+      "text": "Submitter Name",
+      "name": "submitterName"
+    },
+    {
+      "type": "control_email",
+      "text": "Submitter Email",
+      "name": "submitterEmail"
+    },
+    {
+      "type": "control_textarea",
+      "text": "Narrative Note",
+      "name": "narrativeNote"
+    },
+    {
+      "type": "control_textarea",
+      "text": "AI Result",
+      "name": "aiResult",
+      "hidden": true
+    }
+  ]
+};
+
+    const form = document.getElementById('dynamicForm');
+
+    formJSON.questions.forEach((q, i) => {
+      const label = document.createElement('label');
+      label.textContent = q.label;
+      label.setAttribute('for', `field${i}`);
+      form.appendChild(label);
+
+      let input;
+      if (q.type === "textarea") {
+        input = document.createElement('textarea');
+      } else {
+        input = document.createElement('input');
+        input.type = q.type;
+      }
+
+      input.name = `field${i}`;
+      input.id = `field${i}`;
+      form.appendChild(input);
+
+      form.appendChild(document.createElement('br'));
+      form.appendChild(document.createElement('br'));
+    });
+
+    // Add submit button
+    const submit = document.createElement('button');
+    submit.type = "submit";
+    submit.textContent = "Submit";
+    form.appendChild(submit);
+  </script>
+</body>
+</html>
